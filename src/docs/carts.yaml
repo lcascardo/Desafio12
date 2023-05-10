@@ -1,0 +1,168 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtener todos los carritos
+      tags:
+        - Carritos
+      responses:
+        "200":
+          description: Los carritos se entregaron satisfactoriamente.
+        "500":
+          description: Error de servidor.
+  /api/carts/:
+    post:
+      summary: Crear un carrito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cart"
+        description: Caracteristicas del Carrito a agregar
+        required: false
+      tags:
+        - Carritos
+      responses:
+        "200":
+          description: El Carrito se creo satisfactoriamente.
+        "500":
+          description: Error de servidor.
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Comprar un carrito
+      parameters:
+        - in: path
+          name: cid
+          description: ID del Carrito a buscar
+          required: true
+          schema:
+            type: string
+      tags:
+        - Carritos
+      responses:
+        "200":
+          description: El Carrito se compro satisfactoriamente.
+        "404":
+          description: Carrito no encontrado.
+        "500":
+          description: Error de servidor.
+  /api/carts/{cid}:
+    put:
+      summary: Actualizar productos de un carrito por ID
+      parameters:
+        - in: path
+          name: cid
+          description: ID del Carrito a buscar
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              products: [{pid: 63e02d5597fe54556cbbcf17, quantity: 1}]
+            required: true
+      tags:
+        - Carritos
+      responses:
+        "200":
+          description: El Carrito se actualizo satisfactoriamente.
+        "404":
+          description: Carrito no encontrado.
+        "500":
+          description: Error de servidor.
+  /api/carts/{cid}/product/{pid}:
+    put:
+      summary: Actualizar la cantidad de un producto de un carrito por ID
+      parameters:
+        - name: cid
+          in: path
+          description: ID del Carrito a buscar
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          description: ID del producto a actualizar
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              quantity: 5
+            required: true
+      tags:
+        - Carritos
+      responses:
+        "200":
+          description: El producto del carrito se actualizo satisfactoriamente.
+        "404":
+          description: Carrito o producto no encontrado.
+        "500":
+          description: Error de servidor.
+  /api/carts/{cid}/:
+    delete:
+      summary: Eliminar carrito por ID
+      parameters:
+        - in: path
+          name: cid
+          description: ID del Carrito a buscar
+          required: true
+          schema:
+            type: string
+      tags:
+        - Carritos
+      responses:
+        "200":
+          description: El Carrito se elimino satisfactoriamente.
+        "404":
+          description: Carrito no encontrado.
+        "500":
+          description: Error de servidor.
+  /api/carts/{cid}/product/{pid}/:
+    delete:
+      summary: Eliminar un producto de un carrito por ID
+      parameters:
+        - name: cid
+          in: path
+          description: ID del Carrito a buscar
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          description: ID del producto a eliminar
+          required: true
+          schema:
+            type: string
+      tags:
+        - Carritos
+      responses:
+        "200":
+          description: Se elimino el producto del carrito satisfactoriamente.
+        "404":
+          description: Carrito o producto no encontrado.
+        "500":
+          description: Error de servidor.
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autogenerado
+        products:
+          type: array
+          description: Arreglo con produtos
+          product:
+            type: object
+            properties:
+              id: 63e7e9c4c17069de70593cde
+              quantity: 1

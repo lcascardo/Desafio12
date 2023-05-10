@@ -1,0 +1,112 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obtener los productos
+      tags:
+        - Productos
+      responses:
+        "200":
+          description: Los productos se entregaron satisfactoriamente.
+        "500":
+          description: Error de servidor.
+  /api/products:
+    post:
+      summary: Crear un producto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+            example:
+              title: Xbox 360
+              description: Consola de videojuegos
+              code: XB3
+              price: 450000
+              quantity: 360
+              category: consoles
+              thumbnails: ["https://www.images.google.com/"]
+        description: Caracteristicas del producto a agregar
+        required: true
+      tags:
+        - Producto
+      responses:
+        "200":
+          description: El producto se creo satisfactoriamente.
+
+        "500":
+          description: Error de servidor.
+  /api/products/{pid}/:
+    put:
+      summary: Actualizar producto por ID
+      parameters:
+        - in: path
+          name: pid
+          description: ID del producto a buscar
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              category: tecnologia
+      tags:
+        - Productos
+      responses:
+        "200":
+          description: El producto se actualizo satisfactoriamente.
+        "404":
+          description: Producto no encontrado.
+        "500":
+          description: Error de servidor.
+  /api/products//{pid}/:
+    delete:
+      summary: Eliminar producto por ID
+      parameters:
+        - in: path
+          name: pid
+          description: ID del producto a buscar
+          required: true
+          schema:
+            type: string
+      tags:
+        - Productos
+      responses:
+        "200":
+          description: El producto se elimino satisfactoriamente.
+        "404":
+          description: Producto no encontrado.
+        "500":
+          description: Error de servidor.
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autogenerado
+        title:
+          type: string
+          description: Titulo del producto
+        description:
+          type: string
+          description: Descripcion del producto
+        code:
+          type: string
+          description: Codigo identificador del producto
+        price:
+          type: Number
+          description: Precio del producto
+        quantity:
+          type: Number
+          description: Cantidad de productos para vender
+        category:
+          type: string
+          description: Categoria a la que pertenece el producto
+        thumbnail:
+          type: Array
+          description: Arreglo de rutas de imagenes del producto
